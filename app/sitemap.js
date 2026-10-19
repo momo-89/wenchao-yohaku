@@ -1,0 +1,1 @@
+import posts from '../content/posts.json';export default function sitemap(){return [{url:'https://wenchao.io',lastModified:new Date()},...posts.map(p=>({url:`https://wenchao.io/archives/${p.id}`,lastModified:new Date(p.modified.replace(' ','T')+'Z')}))]}

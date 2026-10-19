@@ -1,0 +1,5 @@
+import {cookies} from 'next/headers';import {redirect,notFound} from 'next/navigation';import Link from 'next/link';import crypto from 'crypto';
+function token(){return crypto.createHash('sha256').update((process.env.PRIVATE_PASSWORD||'')+'|'+(process.env.PRIVATE_COOKIE_SECRET||'')).digest('hex')}
+function privatePosts(){try{return JSON.parse(process.env.PRIVATE_POSTS_JSON||'[]')}catch{return []}}
+export const metadata={title:'私藏',robots:{index:false,follow:false,noarchive:true}};
+export default async function SecretArticle({params}){const c=await cookies();if(c.get('yohaku_private')?.value!==token())redirect('/private');const {id}=await params;const p=privatePosts().find(x=>String(x.id)===id);if(!p)notFound();return <main className="article-shell private-article"><nav><Link href="/private">← 私藏</Link><span>PRIVATE · {p.id}</span></nav><article><header><p>{p.date.slice(0,10).replaceAll('-',' · ')}</p><h1>{p.title}</h1></header><div className="article-body" dangerouslySetInnerHTML={{__html:p.content}}/></article></main>}

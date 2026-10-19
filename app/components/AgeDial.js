@@ -1,0 +1,3 @@
+"use client";
+import {useState} from 'react';
+export default function AgeDial(){const [year,setYear]=useState(1997);const t=(year-1979)/27;const angle=-135+t*270;const change=e=>{const y=Number(e.target.value);setYear(y);document.documentElement.style.setProperty('--age',String((2006-y)/27));document.documentElement.style.setProperty('--paper-light',`hsl(40 28% ${82-(2006-y)*.22}%)`)};return <div className="age-box"><div className="dial" style={{'--dial-angle':angle+'deg'}}><div className="knob"/><b>{year}</b></div><input aria-label="纸张年代" type="range" min="1979" max="2006" value={year} onChange={change}/><small>把时间拨回去 · 1979 — 2006</small></div>}
